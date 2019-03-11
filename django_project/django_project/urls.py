@@ -1,7 +1,7 @@
-from django.urls import path
-from postbin import views
+from django.contrib import admin
+from django.urls import path, include
 
 urlpatterns = [
-    path('', views.home, name='Postbin-home'),
-    path('about/', views.about, name='Postbin-about'),
+    path('admin/', admin.site.urls),
+    path('', include('postbin.urls')),
 ]
