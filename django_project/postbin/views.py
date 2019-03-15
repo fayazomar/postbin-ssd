@@ -1,6 +1,10 @@
+from django.contrib.postgres.search import SearchQuery, SearchRank, SearchVector
+from django.db.models import Q
+from .models import Post
 from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.models import User
+from .forms import P_Form
 from django.views.generic import (
     ListView,
     DetailView,
@@ -11,10 +15,9 @@ from django.views.generic import (
 from .models import Post
 
 
+
 def home(request):
-    context = {
-        'posts': Post.objects.all()
-    }
+    context = {'posts': Post.objects.all()}
     return render(request, 'postbin/home.html', context)
 
 
@@ -25,7 +28,17 @@ class PostListView(ListView):
     ordering = ['-date_posted']
     paginate_by = 10
 
-
+def post_list(request):
+    queryset_list = Post.objects.all()
+    query = request.GET.get("q")
+    if query:
+        queryset_list =  queryset_list.filter(
+        Q(title__icontains=query) |
+        Q(content__icontains=query)
+        ).distinct()
+    context = {'posts': Post.objects.all()}
+    return render(request, 'postbin/home.html', context)
+    
 class UserPostListView(ListView):
     model = Post
     template_name = 'postbin/user_posts.html'  # <app>/<model>_<viewtype>.html
@@ -43,7 +56,7 @@ class PostDetailView(DetailView):
 
 class PostCreateView(LoginRequiredMixin, CreateView):
     model = Post
-    fields = ['title', 'content']
+    form_class = P_Form
 
     def form_valid(self, form):
         form.instance.author = self.request.user
@@ -74,7 +87,6 @@ class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         if self.request.user == post.author:
             return True
         return False
-
 
 def about(request):
     return render(request, 'postbin/about.html', {'title': 'About'})

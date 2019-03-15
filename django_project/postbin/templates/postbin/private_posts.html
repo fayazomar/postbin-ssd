@@ -1,21 +1,20 @@
 {% extends "postbin/base.html" %}
 {% block content %}
-    <a class="btn btn-outline-info" style="align: right" href="post/new" >Create a new post</a>
-    <br><br>
-    <h2>10 Recent Posts!</h2>
     {% for post in posts %}
-        <article class="media content-section">
-          <div class="media-body">
-            <div class="">
-              <a class="mr-2" href="{% url 'user-posts' post.author.username %}">{{ post.author }}</a>
-              <small class="text-muted">{{ post.date_posted|date:"F d, Y" }}</small>
-              <a class="btn btn-outline-info" style="float: right;" id="save-btn" >Download</a>
-            </div>
-            <h2><a class="article-title" href="{% url 'post-detail' post.id %}" id="title">{{ post.title }}</a></h2>
-            <p class="article-content" id="text-val">{{ post.content }}</p>
-          </div>
-        </article>
-    {% endfor %}
+      {% if post.private == True and post.author == user %}
+      <article class="media content-section">
+        <div class="media-body">
+          <div class="">
+            <a class="mr-2" href="#">{{ post.author }}</a>
+            <small class="text-muted">{{ post.date_posted }}</small>
+            <a class="btn btn-outline-info" style="float: right;" id="save-btn" >Download</a>
+          </div>
+          <h2><a class="article-title" href="{% url 'post-detail' post.id %}">{{ post.title }}</a></h2>
+          <p class="article-content">{{ post.content }}</p>
+        </div>
+      </article>
+      {% endif %}
+    {% endfor %}
     {% if is_paginated %}
 
       {% if page_obj.has_previous %}

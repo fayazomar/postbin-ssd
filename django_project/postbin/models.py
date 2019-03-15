@@ -2,6 +2,8 @@ from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
 from django.urls import reverse
+from datetime import date
+from django.utils.translation import gettext as _
 
 
 class Post(models.Model):
@@ -15,3 +17,7 @@ class Post(models.Model):
 
     def get_absolute_url(self):
         return reverse('post-detail', kwargs={'pk': self.pk})
+
+    private = models.BooleanField(default=True)
+    invite = models.CharField(max_length=10, blank=True, null=True)
+    expdate = models.DateField(_("Expiration date"), default=date.today)
