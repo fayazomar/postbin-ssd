@@ -72,7 +72,7 @@ python3 manage.py createsuperuser
 
 You will be guided to create a username and password for the Administrator account.
 
-To access the special Administrator portal visit the website/admin url.
+To access the special Administrator portal, visit the website/admin url.
 
 ![Admin](https://raw.githubusercontent.com/fayazomar/postbin-ssd/master/django_project/media/screenshots/009.png)
 
@@ -81,7 +81,7 @@ After logging in with the Administrator credentials, you will then be redirected
 ![AdminDashboard](https://raw.githubusercontent.com/fayazomar/postbin-ssd/master/django_project/media/screenshots/010.png)
 
 Dashboard Functionality:
-Administrators can list, search, create, edit, update, delete Users by clicking the link Users under authentication and auhtorization.
+Administrators can list, search, create, edit, update, delete Users by clicking the link Users under authentication and authorization.
 List & Search:
 
 ![AdminDashboardUsersL](https://raw.githubusercontent.com/fayazomar/postbin-ssd/master/django_project/media/screenshots/012.png)
